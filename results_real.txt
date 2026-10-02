@@ -1,0 +1,153 @@
+==================== r0_baseline ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r1_ecdh_broken ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r2_kem_broken ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r5a1_pub_static_kem_leaked ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r5a2_pub_static_ecdh_leaked ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r5a3_pub_both_static_leaked ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is false.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT (even event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.)
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r5b1_brk_static_kem_leaked ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r5b2_brk_static_ecdh_leaked ====================
+RESULT not attacker(secA[]) is true.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r5b3_brk_both_static_leaked ====================
+RESULT not attacker(secA[]) is false.
+RESULT not attacker(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is false.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r6_static_keys_leak_later ====================
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r6l_static_keys_leak_later_late ====================
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r4a_ecdh_broken_later ====================
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r4b_kem_broken_later ====================
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r4c_both_broken_later ====================
+RESULT not attacker_p1(secA[]) is false.
+RESULT not attacker_p1(secB[]) is false.
+RESULT not attacker_p1(secA[]) is false.
+RESULT not attacker_p1(secB[]) is false.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r7_ecdh_later_plus_static_kem ====================
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r8_kem_later_plus_static_ecdh ====================
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT not attacker_p1(secA[]) is true.
+RESULT not attacker_p1(secB[]) is true.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+==================== r9_everything_later ====================
+RESULT not attacker_p1(secA[]) is false.
+RESULT not attacker_p1(secB[]) is false.
+RESULT not attacker_p1(secA[]) is false.
+RESULT not attacker_p1(secB[]) is false.
+RESULT event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT inj-event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> inj-event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is true.
+RESULT event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) ==> event(bResp(ctb_2,ctu_2,ctp_2)) is true.
+RESULT not event(cAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
+RESULT not event(bAccept(ctb_2,ctu_2,ctp_2,ctv_2)) is false.
