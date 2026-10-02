@@ -1,0 +1,148 @@
+(* ============================================================
+   Hybrid KEM-MQTT, FOLLOWING Figure 2 of Dong et al. (TCHES 2026).
+   Scenario: NTPF variant of R8 KEM broken later + static ECDH keys leaked later
+   Ephemeral ECDH should still protect.
+
+   Keys: P has static KEM (skP) and static ECDH (xp); B has static KEM (skB) and
+   static ECDH (xb); each knows the other's public keys. Ephemerals: KEMu (P),
+   KEMv (B), ECDHt (xu, xv).
+   Flow (from the figure):
+     P->B  ctb=Encaps(pkB), AEAD_K1(pku, gxu)          K1  = KDF(ssb)
+     B->P  ctu, ctp, AEAD_K1'(pkv, gxv)               K1' = KDF(ssb,ssp,ssecs,ssu)
+     P->B  ctv
+     K2 = KDF(ssb,ssp,ssecs,ssu,ssv,ssecdht)
+     B->P  confirmation (publisher confirms first; secB sent only after P is confirmed)
+     P->B  confirmation + data
+   MY ASSUMPTIONS (the text dump of the figure does not show them): transcript
+   hashes are part of the KDF inputs; who sends which confirmation/timestamp;
+   secB stands for the broker's timestamp message.
+   ============================================================ *)
+free c: channel.
+
+type scalar.  type element.
+type kemsk.   type kempk.   type kemss.
+type key.
+
+fun pubDH(scalar): element.
+fun dh(scalar, element): element.
+equation forall x: scalar, y: scalar; dh(x, pubDH(y)) = dh(y, pubDH(x)).
+
+fun kpub(kemsk): kempk.
+fun encap(kempk, kemss): bitstring.
+reduc forall sk: kemsk, m: kemss; decap(sk, encap(kpub(sk), m)) = m.
+
+fun kdf1(kemss): key.
+fun kdf2(kemss, kemss, element, kemss, bitstring): key.
+fun kdf3(kemss, kemss, element, kemss, kemss, element, bitstring): key.
+fun senc(bitstring, key): bitstring.
+reduc forall m: bitstring, k: key; sdec(senc(m, k), k) = m.
+
+fun mk1(kempk, element): bitstring [data].
+reduc forall a: kempk, b: element; getpku(mk1(a, b)) = a.
+reduc forall a: kempk, b: element; getgxu(mk1(a, b)) = b.
+fun mk2(kempk, element): bitstring [data].
+reduc forall a: kempk, b: element; getpkv(mk2(a, b)) = a.
+reduc forall a: kempk, b: element; getgxv(mk2(a, b)) = b.
+fun tr1(bitstring, bitstring): bitstring [data].
+fun tr3(bitstring, bitstring, bitstring, bitstring, bitstring, bitstring): bitstring [data].
+
+const FINB: bitstring.
+const FINP: bitstring.
+const NOTR: bitstring.
+
+
+free secA: bitstring [private].
+free secB: bitstring [private].
+
+event cAccept(bitstring, bitstring, bitstring, bitstring).
+event bResp(bitstring, bitstring, bitstring).
+event bAccept(bitstring, bitstring, bitstring, bitstring).
+event cCommit(bitstring, bitstring, bitstring, bitstring).
+
+query attacker(secA).
+query attacker(secB).
+query attacker(secA) phase 1.
+query attacker(secB) phase 1.
+query ctb: bitstring, ctu: bitstring, ctp: bitstring, ctv: bitstring;
+  event(bAccept(ctb, ctu, ctp, ctv)) ==> event(cCommit(ctb, ctu, ctp, ctv)).
+query ctb: bitstring, ctu: bitstring, ctp: bitstring, ctv: bitstring;
+  inj-event(bAccept(ctb, ctu, ctp, ctv)) ==> inj-event(cCommit(ctb, ctu, ctp, ctv)).
+query ctb: bitstring, ctu: bitstring, ctp: bitstring, ctv: bitstring;
+  event(cAccept(ctb, ctu, ctp, ctv)) ==> event(bResp(ctb, ctu, ctp)).
+(* reachability: "not event(...) is false" means the event IS reachable (good) *)
+query ctb: bitstring, ctu: bitstring, ctp: bitstring, ctv: bitstring;
+  event(cAccept(ctb, ctu, ctp, ctv)).
+query ctb: bitstring, ctu: bitstring, ctp: bitstring, ctv: bitstring;
+  event(bAccept(ctb, ctu, ctp, ctv)).
+
+let pub(skP: kemsk, xp: scalar, pkB: kempk, gxb: element) =
+  new sku: kemsk;
+  new xu: scalar;
+  new rb: kemss;
+  let pku = kpub(sku) in
+  let gxu = pubDH(xu) in
+  let ctb = encap(pkB, rb) in
+  let ssecs = dh(xp, gxb) in
+  let k1 = kdf1(rb) in
+  let e1 = senc(mk1(pku, gxu), k1) in
+  out(c, (ctb, e1));
+  in(c, (ctu: bitstring, ctp: bitstring, e2: bitstring));
+  let ssu = decap(sku, ctu) in
+  let ssp = decap(skP, ctp) in
+  let k1p = kdf2(rb, ssp, ssecs, ssu, NOTR) in
+  let pkv = getpkv(sdec(e2, k1p)) in
+  let gxv = getgxv(sdec(e2, k1p)) in
+  let ssecdht = dh(xu, gxv) in
+  new rv: kemss;
+  let ctv = encap(pkv, rv) in
+  out(c, ctv);
+  let k2 = kdf3(rb, ssp, ssecs, ssu, rv, ssecdht, NOTR) in
+  event cCommit(ctb, ctu, ctp, ctv);
+  out(c, senc(FINP, k2));
+  in(c, (f2: bitstring, d2: bitstring));
+  if sdec(f2, k2) = FINB then
+  let sb = sdec(d2, k2) in
+  event cAccept(ctb, ctu, ctp, ctv);
+  out(c, senc(secA, k2)); phase 1;
+  out(c, (rb, ssp, ssu, rv)).
+
+let brk(skB: kemsk, xb: scalar, pkP: kempk, gxp: element) =
+  in(c, (ctb: bitstring, e1: bitstring));
+  let ssb = decap(skB, ctb) in
+  let k1 = kdf1(ssb) in
+  let pku = getpku(sdec(e1, k1)) in
+  let gxu = getgxu(sdec(e1, k1)) in
+  new ru: kemss;
+  new rp: kemss;
+  new skv: kemsk;
+  new xv: scalar;
+  let ctu = encap(pku, ru) in
+  let ctp = encap(pkP, rp) in
+  let pkv = kpub(skv) in
+  let gxv = pubDH(xv) in
+  let ssecdht = dh(xv, gxu) in
+  let ssecs = dh(xb, gxp) in
+  let k1p = kdf2(ssb, rp, ssecs, ru, NOTR) in
+  let e2 = senc(mk2(pkv, gxv), k1p) in
+  event bResp(ctb, ctu, ctp);
+  out(c, (ctu, ctp, e2));
+  in(c, ctv: bitstring);
+  let ssv = decap(skv, ctv) in
+  let k2 = kdf3(ssb, rp, ssecs, ru, ssv, ssecdht, NOTR) in
+  
+  in(c, f3: bitstring);
+  if sdec(f3, k2) = FINP then
+  event bAccept(ctb, ctu, ctp, ctv);
+  out(c, (senc(FINB, k2), senc(secB, k2))).
+
+process
+  new skPs: kemsk;
+  new skBs: kemsk;
+  new xps: scalar;
+  new xbs: scalar;
+  let pkP = kpub(skPs) in
+  let pkB = kpub(skBs) in
+  let gxp = pubDH(xps) in
+  let gxb = pubDH(xbs) in
+  out(c, (pkP, pkB, gxp, gxb));
+  ( !pub(skPs, xps, pkB, gxb) | !brk(skBs, xbs, pkP, gxp) | (phase 1; out(c, (xps, xbs))) )
